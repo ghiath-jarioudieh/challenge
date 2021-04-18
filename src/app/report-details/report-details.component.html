@@ -1,0 +1,110 @@
+<div class="main">
+  <div class="container">
+    <ng-container *ngIf="report | async as report">
+      <div class="row m-b-40">
+        <div class="col-12">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="d-inline-flex align-items-center">
+              <button
+                mat-raised-button
+                (click)="backToList()"
+                class="btn--back">
+                <mat-icon class="icon--small">arrow_back_ios</mat-icon> Zurück
+              </button>
+              <h1 class="m-b-0 m-l-20 flex-1" [innerText]="report.title"></h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-container>
+        <div class="row">
+          <div class="col-12 m-b-20">
+            <h5 class="text-uppercase sub-title">beschreibung</h5>
+          </div>
+        </div>
+        <div class="row m-b-40">
+          <div class="col-12">
+            <div class="block block--white d-flex">
+              <p class="flex-1 m-r-20" [innerText]="report.description"></p>
+              <div style="width: 220px; height: 293px; margin: 0 auto; cursor: pointer;" *ngIf="report.photos.length">
+                <img
+                  (click)="openImage(report.photos[0])"
+                  [src]="'https://www.buergermeldungen.com/' + report.photos[0].path"
+                  alt="report-image"
+                  class="img-fluid rounded"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container>
+        <div class="row">
+          <div class="col-12 m-b-20">
+            <h5 class="text-uppercase sub-title">Einzelheiten</h5>
+          </div>
+        </div>
+        <div class="row m-b-40">
+          <div class="col-8">
+            <div class="block block--white d-flex">
+              <div class="flex-1">
+                  <div class="report-details__row justify-content-between">
+                    <div class="d-inline-flex">
+                      <span class="report-details__row__title">Meldungsnummer </span>
+                      <span class="report-details__row__details">{{ report.number }}</span>
+                    </div>
+                    <div class="d-inline-flex">
+                      <mat-chip-list aria-label="status">
+                        <mat-chip color="warn" selected>{{
+                          report.status.name
+                        }}</mat-chip>
+                      </mat-chip-list>
+                    </div>
+                  </div>
+                  <div class="report-details__row">
+                    <span class="report-details__row__title">Erstellt am </span>
+                    <span class="report-details__row__details">{{ report.createdAt | date: "MMM d, y" }} um
+                      {{ report.createdAt | date: "HH:mm" }} Uhr</span>
+                  </div>
+                  <div class="report-details__row">
+                    <span class="report-details__row__title">Kategorie </span>
+                    <span class="report-details__row__details link" (click)="getReportsByCategoryId(report.category.id, report.category.name)">{{ report.category.name }}</span>
+                    <span class="img-fluid report-details__row__img" *ngIf="report.category.image">
+                      <img [src]="'https://www.buergermeldungen.com/' + report.category.image" alt="report-category" class="img-fluid"/>
+                    </span>
+                  </div>
+                  <div class="report-details__row">
+                    <span class="report-details__row__title">Standort </span>
+                    <span class="report-details__row__details">{{ report.location.street }} <br> {{ report.location.place }} - {{ report.location.zip }}</span>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <agm-map
+            style="height: 293px;"
+            [zoom]="19"
+            [longitude]="report.location.longitude"
+            [latitude]="report.location.latitude">
+          </agm-map>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="report.comments.length">
+        <div class="row">
+          <div class="col-12 m-b-20">
+            <h5 class="text-uppercase sub-title">Kommentar</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div *ngFor="let comment of report.comments" class="block block--secondary m-b-10">
+              <p [innerText]="comment.text"></p>
+              <span class="app-note d-flex justify-content-end">{{ comment.createdAt }}</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

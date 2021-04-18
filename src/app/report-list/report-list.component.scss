@@ -1,0 +1,57 @@
+@import "variables";
+
+.report-list {
+    &__list {
+        padding: 0;
+        width: 100%;
+    }
+    &__filtered {
+        margin: 0 0 40px 0;
+        color: $dark-gray;
+    }
+    &__item {
+        display: flex;
+        align-items: center;
+        color: black;
+        padding: 10px;
+        border-radius: 20px;
+        cursor: pointer;
+        border: 1px solid white;
+        height: 110px;
+        width: 100%;
+        position: relative;
+        background: white;
+        box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+        transition: all 300ms ease;
+        &:not(:last-child) {
+            margin-bottom: 30px;
+        }
+        &__details {
+            width: 100%;
+            margin-right: 20px;
+            flex: 1;
+            max-width: calc(100% - 100px);
+        }
+        &__image {
+            width: 80px;
+            height: 80px;
+            .image {
+                width: 100%;
+                height: 100%;
+                border-radius: 20px;
+                background-size: cover;
+                background-position: center center;
+                background-repeat: no-repeat;
+            }
+        }
+        &__status {
+            position: absolute;
+            top: -16px;
+            left: 10px;
+        }
+        &:hover {
+            transform: translate(7px, 0);
+            transition: all 300ms ease;
+        }
+    }
+}
